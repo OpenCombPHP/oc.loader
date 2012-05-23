@@ -4,6 +4,7 @@ namespace org\opencomb\loader ;
 use org\opencomb\platform\service\ServiceFactory;
 use org\jecat\framework\mvc\controller\Request;
 use org\jecat\framework\system\AccessRouter;
+use org\opencomb\platform\service\upgrader\PlatformDataUpgrader ;
 
 class Loader
 {
@@ -36,6 +37,26 @@ class Loader
 
 		// 创建请求的服务
 		ServiceFactory::singleton()->create($arrServiceSetting) ;
+		
+		// 检查 service 状态 (是否关闭)
+		if( is_file(__DIR__.'/lock.shutdown.html') )
+		{
+			// 检查”后门“密钥，方便管理员进入
+			if( empty($_REQUEST['shutdown_backdoor_secret_key']) or !is_file(__DIR__.'/lock.shutdown.backdoor.php') or include(__DIR__.'/lock.shutdown.backdoor.php')!=$_REQUEST['shutdown_backdoor_secret_key'] )
+			{
+				// ”后门密钥“检查失败，关闭系统
+				include __DIR__.'/lock.shutdown.html' ;
+				exit() ;
+			}
+		}
+
+
+		// 检查 service 升级
+		$aDataUpgrader = PlatformDataUpgrader::singleton() ; 
+		if(TRUE === $aDataUpgrader->process()){
+			$aDataUpgrader->relocation();
+			exit();
+		}
 		
 		// 根据路由设置创建控制器 并 执行
 		$aController = AccessRouter::singleton()->createRequestController(Request::singleton()) ;
