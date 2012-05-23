@@ -24,10 +24,15 @@ class Loader
 		{
 			throw new \Exception('requesting service is invalid: '.$_SERVER['HTTP_HOST']) ;
 		}
+
+		$arrServiceSetting['framework_folder'] = \org\opencomb\platform\FRAMEWORK_FOLDER.'/'.$arrServiceSetting['framework_version'] ;
+		$arrServiceSetting['framework_url'] = \org\opencomb\platform\FRAMEWORK_URL.'/'.$arrServiceSetting['framework_version'] ;
+		$arrServiceSetting['platform_folder'] = \org\opencomb\platform\PLATFORM_FOLDER.'/'.$arrServiceSetting['platform_version'] ;
+		$arrServiceSetting['platform_url'] = \org\opencomb\platform\PLATFORM_URL.'/'.$arrServiceSetting['platform_version'] ;
 		
 		// 加载 framework / platform
-		require_once \org\opencomb\platform\FRAMEWORK_FOLDER.'/'.$arrServiceSetting['framework_version'].'/jc.init.php' ;
-		require_once \org\opencomb\platform\PLATFORM_FOLDER.'/'.$arrServiceSetting['platform_version'].'/oc.init.php' ;
+		require_once $arrServiceSetting['framework_folder'].'/jc.init.php' ;
+		require_once $arrServiceSetting['platform_folder'].'/oc.init.php' ;
 
 		// 创建请求的服务
 		ServiceFactory::singleton()->create($arrServiceSetting) ;

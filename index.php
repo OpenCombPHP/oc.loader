@@ -15,7 +15,9 @@ define('org\\opencomb\\platform\\SERVICES_FOLDER',\org\opencomb\platform\ROOT.'/
 define('org\\opencomb\\platform\\PUBLIC_FILES_FOLDER',\org\opencomb\platform\ROOT.'/public/files') ;
 define('org\\opencomb\\platform\\PUBLIC_FILES_URL','public/files') ;
 define('org\\opencomb\\platform\\FRAMEWORK_FOLDER',\org\opencomb\platform\ROOT.'/framework') ;
+define('org\\opencomb\\platform\\FRAMEWORK_URL','framework') ;
 define('org\\opencomb\\platform\\PLATFORM_FOLDER',\org\opencomb\platform\ROOT.'/platform') ;
+define('org\\opencomb\\platform\\PLATFORM_URL','platform') ;
 
 // 检查是否完成安装
 if( !is_dir(\org\opencomb\platform\SERVICES_FOLDER) and is_file(__DIR__.'/setup/setup.php') )
