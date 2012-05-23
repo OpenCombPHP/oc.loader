@@ -10,7 +10,7 @@ class Loader
 	const version = '0.1.0.0' ;
 	
 	const default_platform_version = '0.3.2.0' ;
-	const default_framework_version = '0.7.1.0' ;
+	const default_framework_version = '0.7.2.0' ;
 	
 	public function __construct()
 	{
