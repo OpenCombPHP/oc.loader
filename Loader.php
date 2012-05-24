@@ -25,6 +25,16 @@ class Loader
 		{
 			throw new \Exception('requesting service is invalid: '.$_SERVER['HTTP_HOST']) ;
 		}
+		
+		// framework/platform 的版本
+		if(empty($arrServiceSetting['framework_version']))
+		{
+			$arrServiceSetting['framework_version'] = self::default_framework_version ;
+		}
+		if(empty($arrServiceSetting['platform_version']))
+		{
+			$arrServiceSetting['platform_version'] = self::default_platform_version ;
+		}
 
 		$arrServiceSetting['framework_folder'] = \org\opencomb\platform\FRAMEWORK_FOLDER.'/'.$arrServiceSetting['framework_version'] ;
 		$arrServiceSetting['framework_url'] = \org\opencomb\platform\FRAMEWORK_URL.'/'.$arrServiceSetting['framework_version'] ;
@@ -123,15 +133,6 @@ class Loader
 			$this->arrServiceSettings[$sHost]['folder_name'] = $sHost ;
 			$this->arrServiceSettings[$sHost]['folder_path'] = \org\opencomb\platform\SERVICES_FOLDER . '/' . $sHost ;
 			
-			// framework/platform 的版本
-			if(empty($this->arrServiceSettings[$sHost]['framework_version']))
-			{
-				$this->arrServiceSettings[$sHost]['framework_version'] = self::default_framework_version ;
-			}
-			if(empty($this->arrServiceSettings[$sHost]['platform_version']))
-			{
-				$this->arrServiceSettings[$sHost]['platform_version'] = self::default_platform_version ;
-			}
 			return $this->arrServiceSettings[$sHost] ;
 		}
 		else
@@ -148,9 +149,6 @@ class Loader
 						$arrServiceInfo['folder_name'] = $sServiceFolder ;
 						$arrServiceInfo['folder_path'] = \org\opencomb\platform\SERVICES_FOLDER . '/' . $sServiceFolder ;
 						
-						// framework/platform 的版本
-						$arrServiceInfo['framework_version'] = self::default_framework_version ;
-						$arrServiceInfo['platform_version'] = self::default_platform_version ;
 						return $arrServiceInfo ;
 					}
 				}
@@ -165,4 +163,3 @@ class Loader
 	private $arrServiceSettings = array() ;
 }
 
-?>
