@@ -15,10 +15,11 @@ class Loader
 	
 	public function __construct()
 	{
+		require_once __DIR__.'/config.php';
 		$this->loadServiceSettings() ;
 	}
 	
-	public function launch()
+	public function startup()
 	{
 		// 创建服务
 		if( !$arrServiceSetting =& $this->serviceSetting($_SERVER['HTTP_HOST']) )
@@ -44,9 +45,13 @@ class Loader
 		// 加载 framework / platform
 		require_once $arrServiceSetting['framework_folder'].'/jc.init.php' ;
 		require_once $arrServiceSetting['platform_folder'].'/oc.init.php' ;
-
+		
 		// 创建请求的服务
 		ServiceFactory::singleton()->create($arrServiceSetting) ;
+	}
+	
+	public function launch(){
+		$this->startup();
 		
 		// 检查 service 状态 (是否关闭)
 		if( is_file(__DIR__.'/lock.shutdown.html') )
