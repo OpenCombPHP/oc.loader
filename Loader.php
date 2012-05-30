@@ -15,7 +15,7 @@ class Loader
 	
 	public function __construct()
 	{
-		require_once __DIR__.'/config.php';
+		require_once __DIR__.'/common.php';
 		$this->loadServiceSettings() ;
 	}
 	
@@ -52,7 +52,6 @@ class Loader
 	
 	public function launch(){
 		$this->startup();
-		
 		// 检查 service 状态 (是否关闭)
 		if( is_file(__DIR__.'/lock.shutdown.html') )
 		{
@@ -64,6 +63,7 @@ class Loader
 				exit() ;
 			}
 		}
+		
 
 
 		// 检查 service 升级
