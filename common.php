@@ -16,13 +16,14 @@ define('org\\opencomb\\platform\\FRAMEWORK_URL','framework') ;
 define('org\\opencomb\\platform\\PLATFORM_FOLDER',\org\opencomb\platform\ROOT.'/platform') ;
 define('org\\opencomb\\platform\\PLATFORM_URL','platform') ;
 
-// 在不同环境下，仅需要修改此文件即可。因此将VFS放在此文件中。
-require_once __DIR__.'/vfs/VFSWrapper.php';
-require_once __DIR__.'/vfs/VirtualFileSystem.php';
-require_once __DIR__.'/vfs/IPhysicalFileSystem.php';
-require_once __DIR__.'/vfs/LocalFileSystem.php';
-require_once __DIR__.'/vfs/SaeStorageFileSystem.php';
 if( defined('SAE_TMP_PATH') ){
+	// 在不同环境下，仅需要修改此文件即可。因此将VFS放在此文件中。
+	require_once __DIR__.'/vfs/VFSWrapper.php';
+	require_once __DIR__.'/vfs/VirtualFileSystem.php';
+	require_once __DIR__.'/vfs/IPhysicalFileSystem.php';
+	require_once __DIR__.'/vfs/LocalFileSystem.php';
+	require_once __DIR__.'/vfs/SaeStorageFileSystem.php';
+
 	\org\jecat\framework\fs\vfs\VFSWrapper::vfs('ocfs')->mount(
 		'oc/',
 		new \org\jecat\framework\fs\vfs\SaeStorageFileSystem('ocsaefile')
