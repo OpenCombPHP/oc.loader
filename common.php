@@ -25,6 +25,6 @@ require_once __DIR__.'/vfs/SaeStorageFileSystem.php';
 if( defined('SAE_TMP_PATH') ){
 	\org\jecat\framework\fs\vfs\VFSWrapper::vfs('ocfs')->mount(
 		'oc/services',
-		new \org\jecat\framework\fs\vfs\SaeStorageFileSystem('elephantfile')
+		new \org\jecat\framework\fs\vfs\SaeStorageFileSystem('ocsaefile')
 	) ;
 }
