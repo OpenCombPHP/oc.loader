@@ -1,5 +1,9 @@
 <?php
-namespace org\opencomb\loader ;
+$sPhpVersion = PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION.'.'.PHP_RELEASE_VERSION;
+if(version_compare($sPhpVersion,'5.3.0')<0){
+	require_once 'PhpVersionError.php';
+	exit();
+}
 
 // 默认的时区
 date_default_timezone_set('Asia/Shanghai') ;
@@ -8,16 +12,3 @@ ini_set('display_errors',1) ;
 error_reporting(E_ALL^E_STRICT) ;
 
 require_once __DIR__.'/common.php';
-
-// 检查是否完成安装
-if( !is_dir(\org\opencomb\platform\SERVICES_FOLDER) and is_file(__DIR__.'/setup/setup.php') )
-{
-	Header("Location:/setup/setup.php");
-	echo "<a>Install ... </a>" ;
-	exit() ;
-}
-
-// 初始化 jcat 框架
-require __DIR__.'/Loader.php' ;
-$aLoader = new Loader() ;
-$aLoader->launch() ;
