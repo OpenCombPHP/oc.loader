@@ -39,6 +39,6 @@ if( !is_dir(\org\opencomb\platform\SERVICES_FOLDER) and is_file(__DIR__.'/setup/
 }
 
 // 初始化 jcat 框架
-require __DIR__.'/Loader.php' ;
+require_once __DIR__.'/Loader.php' ;
 $aLoader = new \org\opencomb\loader\Loader() ;
 $aLoader->launch() ;
