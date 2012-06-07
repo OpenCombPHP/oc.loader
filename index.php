@@ -11,4 +11,5 @@ date_default_timezone_set('Asia/Shanghai') ;
 ini_set('display_errors',1) ;
 error_reporting(E_ALL^E_STRICT) ;
 
-require_once __DIR__.'/common.php';
+$aLoader = require_once __DIR__.'/common.php';
+$aLoader->launch() ;
