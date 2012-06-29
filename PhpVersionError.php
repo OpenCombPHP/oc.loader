@@ -6,6 +6,6 @@
 </head>
 <body>
 	<h3>蜂巢平台不支持低版本php</h3>
-	php版本至少为5.3.0
+	php版本不低于为5.3.0，当前版本是<?php echo $sPhpVersion;?>。
 </body>
 </html>

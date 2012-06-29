@@ -1,5 +1,5 @@
 <?php
-$sPhpVersion = PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION.'.'.PHP_RELEASE_VERSION;
+$sPhpVersion = PHP_VERSION;
 if(version_compare($sPhpVersion,'5.3.0')<0){
 	require_once 'PhpVersionError.php';
 	exit();

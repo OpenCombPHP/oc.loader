@@ -19,3 +19,4 @@ lock.shutdown.*
 .svn
 config.yaml
 public
+setup/
