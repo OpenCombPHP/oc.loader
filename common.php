@@ -33,7 +33,7 @@ if( defined('SAE_TMP_PATH') ){
 // 检查是否完成安装
 if( !is_dir(\org\opencomb\platform\SERVICES_FOLDER) and is_file(__DIR__.'/setup/setup.php') )
 {
-	Header("Location:/setup/setup.php");
+	Header("Location:setup/setup.php");
 	echo "<a>Install ... </a>" ;
 	exit() ;
 }
