@@ -26,6 +26,6 @@ if( defined('SAE_TMP_PATH') ){
 
 	\org\jecat\framework\fs\vfs\VFSWrapper::vfs('ocfs')->mount(
 		'oc/',
-		new \org\jecat\framework\fs\vfs\SaeStorageFileSystem('ocsaefile')
+		new \org\jecat\framework\fs\vfs\SaeStorageFileSystem('ocstor')
 	) ;
 }
