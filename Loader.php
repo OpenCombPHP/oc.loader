@@ -16,10 +16,7 @@ class Loader
 	{
 		require_once __DIR__.'/common.php';
 		$this->loadServiceSettings() ;
-	}
-	
-	public function startup()
-	{
+		
 		// 创建服务
 		if( !$arrServiceSetting =& $this->serviceSetting($_SERVER['HTTP_HOST']) )
 		{
@@ -45,11 +42,22 @@ class Loader
 		require_once $arrServiceSetting['framework_folder'].'/jc.init.php' ;
 		require_once $arrServiceSetting['platform_folder'].'/oc.init.php' ;
 		
+		$this->aServiceFactory = new ServiceFactory( $arrServiceSetting ) ;
+		ServiceFactory::setSingleton( $this->aServiceFactory );
+	}
+	
+	public function startup()
+	{
 		// 创建请求的服务
-		ServiceFactory::singleton()->create($arrServiceSetting) ;
+		$this->aServiceFactory->create() ;
+	}
+	
+	public function startBaseSystem(){
+		$this->aServiceFactory->startBaseSystem() ;
 	}
 	
 	public function launch(){
+		$this->startBaseSystem() ;
 		$this->startup();
 		
 		// 根据路由设置创建控制器 并 执行
@@ -145,5 +153,6 @@ class Loader
 
 
 	private $arrServiceSettings = array() ;
+	private $aServiceFactory = null ;
 }
 
