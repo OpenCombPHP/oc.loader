@@ -4,3 +4,10 @@ platform
 public
 services
 setup
+.DS_Store
+.buildpath
+.project
+.settings/
+dummy.php
+phpinfo.php
+test.php
