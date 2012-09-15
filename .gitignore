@@ -11,3 +11,7 @@ setup
 dummy.php
 phpinfo.php
 test.php
+.tags
+.tags_sorted_by_file
+cscope.files
+cscope.out
