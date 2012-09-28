@@ -150,6 +150,15 @@ class Loader
 			return $arrService ;
 		}
 	}
+	
+	public function __destruct(){
+		$sServiceSettingFile = \org\opencomb\platform\SERVICES_FOLDER.'/settings.inc.php' ;
+		
+		if( !file_put_contents($sServiceSettingFile,'<?php return $arrServiceSettings = '.var_export($this->arrServiceSettings,true).';') )
+		{
+			throw new \Exception('can not write file: '.$sServiceSettingFile) ;
+		}
+	}
 
 
 	private $arrServiceSettings = array() ;
