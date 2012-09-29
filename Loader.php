@@ -32,7 +32,6 @@ class Loader
 		{
 			$arrServiceSetting['platform_version'] = self::default_platform_version ;
 		}
-
 		$arrServiceSetting['framework_folder'] = \org\opencomb\platform\FRAMEWORK_FOLDER.'/'.$arrServiceSetting['framework_version'] ;
 		$arrServiceSetting['framework_url'] = \org\opencomb\platform\FRAMEWORK_URL.'/'.$arrServiceSetting['framework_version'] ;
 		$arrServiceSetting['platform_folder'] = \org\opencomb\platform\PLATFORM_FOLDER.'/'.$arrServiceSetting['platform_version'] ;
@@ -41,6 +40,11 @@ class Loader
 		// 加载 framework / platform
 		require_once $arrServiceSetting['framework_folder'].'/jc.init.php' ;
 		require_once $arrServiceSetting['platform_folder'].'/oc.init.php' ;
+		
+		if( $this->isUpgradeData($arrServiceSetting) ){
+			$this->upgradeFrameworkData($arrServiceSetting);
+			$this->upgradePlatformData($arrServiceSetting);
+		}
 		
 		$this->aServiceFactory = new ServiceFactory( $arrServiceSetting ) ;
 		ServiceFactory::setSingleton( $this->aServiceFactory );
@@ -159,8 +163,42 @@ class Loader
 			throw new \Exception('can not write file: '.$sServiceSettingFile) ;
 		}
 	}
-
-
+	
+	private function isUpgradeData(array $arrServiceSetting){
+		if( isset($arrServiceSetting['upgradeData']) ){
+			return (bool)$arrServiceSetting['upgradeData'];
+		}else{
+			return true;
+		}
+	}
+	
+	private function upgradeFrameworkData(array &$arrServiceSetting){
+		if( isset($arrServiceSetting['framework']) 
+				and isset($arrServiceSetting['framework']['dataVersion']) ){
+			$sDataVersionInSetting = $arrServiceSetting['framework']['dataVersion'];
+		}else{
+			$sDataVersionInSetting = '0.0.0.0';
+		}
+		$sDataVersionInFramework = \org\jecat\framework\DATA_VERSION ;
+		if( version_compare($sDataVersionInSetting , $sDataVersionInFramework ) < 0 ){
+			$sUpgradeName = 'upgrade_'.str_replace('.','_',$sDataVersionInSetting).'_To_'.str_replace('.','_',$sDataVersionInFramework);
+			$sFilename = $arrServiceSetting['framework_folder'].'/class/dataupgrade/'.$sUpgradeName.'.php';
+			if( file_exists( $sFilename ) ){
+				require_once($arrServiceSetting['framework_folder'].'/class/dataupgrade/IDataUpgrader.php');
+				include_once($sFilename);
+				$sClassName = 'org\jecat\framework\dataupgrade\\'.$sUpgradeName;
+				$aUpgrader = new $sClassName();
+				$aUpgrader->upgrade($arrServiceSetting);
+				$arrServiceSetting['framework']['dataVersion'] = $sDataVersionInFramework ;
+			}else{
+				throw new \Exception('framework的数据升级无法运行：未找到从'.$sDataVersionInSetting.'到'.$sDataVersionInFramework.'的数据升级程序');
+			}
+		}
+	}
+	
+	private function upgradePlatformData(array $arrServiceSetting){
+	}
+	
 	private $arrServiceSettings = array() ;
 	private $aServiceFactory = null ;
 }
